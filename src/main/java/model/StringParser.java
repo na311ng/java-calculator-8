@@ -20,17 +20,16 @@ public class StringParser {
             return List.of();
         }
 
-        String delimiterRegex = "[,:]";
-        String numbers = input;
+        DelimiterExtractor.Result result = delimiterExtractor.extract(input);
 
-        String[] tokens = numbers.split(delimiterRegex);
-        List<Integer> result = new ArrayList<>();
+        String[] tokens = result.numbers.split(result.delimiterRegex);
+        List<Integer> parsed = new ArrayList<>();
 
         for(String token : tokens){
             String trimmed = token.trim();
             validator.validateToken(trimmed);
-            result.add(Integer.parseInt(trimmed));
+            parsed.add(Integer.parseInt(trimmed));
         }
-        return result;
+        return parsed;
     }
 }
