@@ -3,6 +3,7 @@ package model;
 import util.DelimiterExtractor;
 import util.Validator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StringParser {
@@ -18,6 +19,18 @@ public class StringParser {
         if(input == null || input.isEmpty()){
             return List.of();
         }
-        return List.of(); // TODO: implement parsing in next step
+
+        String delimiterRegex = "[,:]";
+        String numbers = input;
+
+        String[] tokens = numbers.split(delimiterRegex);
+        List<Integer> result = new ArrayList<>();
+
+        for(String token : tokens){
+            String trimmed = token.trim();
+            validator.validateToken(trimmed);
+            result.add(Integer.parseInt(trimmed));
+        }
+        return result;
     }
 }
