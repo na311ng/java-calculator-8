@@ -2,16 +2,36 @@ package util;
 
 public class Validator {
     public void validateToken(String token){
-        if(token.isEmpty()){
+        if(token == null || token.isEmpty()){
             throw new IllegalArgumentException("token is empty");
         }
-        if(!token.chars().allMatch(Character::isDigit)){
-            throw new IllegalArgumentException("token is not digit : " + token);
+        if(!isAllDigits(token)){
+            throw new IllegalArgumentException("token is not all digits : " + token);
         }
 
-        int value = Integer.parseInt(token);
-        if(value < 0){
-            throw new IllegalArgumentException("token value is negative");
+        int value = parseSafe(token);
+        if(value <= 0){
+            if(value == 0){
+                throw new IllegalArgumentException("token value is negative");
+            }
+            throw new IllegalArgumentException("token value is " + value);
+        }
+    }
+
+    private boolean isAllDigits(String s){
+        for(int i = 0; i < s.length(); i++){
+            if(!Character.isDigit(s.charAt(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int parseSafe(String s){
+        try{
+            return Integer.parseInt(s);
+        }catch(NumberFormatException e){
+            throw new IllegalArgumentException("token is not all digits : " + s);
         }
     }
 }

@@ -20,15 +20,13 @@ public class StringParser {
             return List.of();
         }
 
-        DelimiterExtractor.Result result = delimiterExtractor.extract(input);
-
-        String[] tokens = result.numbers.split(result.delimiterRegex);
-        List<Integer> parsed = new ArrayList<>();
-
-        for(String token : tokens){
-            String trimmed = token.trim();
-            validator.validateToken(trimmed);
-            parsed.add(Integer.parseInt(trimmed));
+        var result = delimiterExtractor.extract(input);
+        String[] tokens = result.numbers.split(result.delimiterRegex, -1);
+        List<Integer> parsed = new ArrayList<>(tokens.length);
+        for(String raw : tokens){
+            String token = raw.trim();
+            validator.validateToken(token);
+            parsed.add(Integer.parseInt(token));
         }
         return parsed;
     }
