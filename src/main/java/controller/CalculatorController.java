@@ -20,7 +20,7 @@ public class CalculatorController {
             int result = calculator.sum(parser.parse(input));
             view.printResult(result);
         }catch(IllegalArgumentException e){
-            view.printError(e.getMessage());
+            throw new IllegalArgumentException("invalid input : " + e.getMessage());
         }finally{
             Console.close();
         }
